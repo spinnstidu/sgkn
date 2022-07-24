@@ -1,0 +1,27 @@
+<form class="example-form" style="width: 100%;">
+    <mat-form-field class="example-full-width" appearance="fill" style="width: 100%;">
+      <mat-label>Articles on server</mat-label>
+      <input matInput 
+             aria-label="Article"
+             [matAutocomplete]="auto"
+             [formControl]="this.stateCtrl"
+             [(ngModel)]="autocompletestr"
+             >
+             <!-- [formControl]="stateCtrl" -->
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="CopyToClipboard()">
+        <mat-option *ngFor="let state of filteredStates | async" [value]="state.title" style="width: 100%;">
+          <!-- <img class="example-option-img" aria-hidden [src]="state.flag" height="25"> -->
+          <span>{{state.title}}</span> |
+          <small>Description: {{state.description}}</small>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  
+    <br>
+  
+    <!-- <mat-slide-toggle
+      [checked]="stateCtrl.disabled"
+      (change)="stateCtrl.disabled ? stateCtrl.enable() : stateCtrl.disable()">
+      Disable Input?
+    </mat-slide-toggle> -->
+  </form>
