@@ -1,0 +1,171 @@
+  <section >
+    <p style="margin: 1%;">
+        <mat-toolbar>
+
+        <button (click)="showFiller = !showFiller" mat-button matTooltip="Hide Attributes">
+            <mat-icon>{{showFiller?'arrow_drop_up':'arrow_drop_down'}}</mat-icon>
+            <mat-icon>attachment</mat-icon>
+            ({{article.appendix.length}})
+        </button>  
+         <button mat-button class="example-icon" aria-label="Example icon-button with menu icon" matTooltip="Edit this article" (click)="StartEdit()">
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <!-- <span>My App</span>  -->
+        <span class="example-spacer" style="flex: 1 1 auto;"></span>
+
+        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" matTooltip="Print page width">
+            <mat-icon (click)="fixedpagewidth()">swap_horiz</mat-icon>
+          </button>
+        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" matTooltip="Fullscreen mode">
+            <mat-icon (click)="Fullscreen()">fullscreen</mat-icon>
+          </button>
+        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" matTooltip="Add to my folder">
+          <mat-icon (click)="AddToMyFolder()">favorite</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" matTooltip="Add to my template">
+            <mat-icon (click)="AddToMyTemplate()">assignment</mat-icon>
+          </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="Share to others" (click)="this.sharing = !this.sharing">
+         <mat-icon>share</mat-icon>
+       </button>
+      </mat-toolbar>
+      </p>
+
+    <H1 class="title" style="font-size:xx-large;"><strong>{{article.title}}</strong> </H1>
+    <mat-card *ngIf="showFiller" class="example-card">
+        <mat-card-subtitle>Posted by:</mat-card-subtitle>
+        <mat-card-title>{{articleOwner.name}}</mat-card-title>
+        <mat-card-content>
+          <p>{{article.description}}</p>
+          <table [cellSpacing]="10">
+            <tr>
+                <td>More Authors</td><td>{{article.otherauthors}}</td>
+            </tr>
+            <tr>
+                <td>Article Index</td><td>{{article.index}}</td>
+            </tr>
+            <tr>
+                <td>Article Type:</td><td> <a [ngSwitch]="article.articletype">
+                    <a *ngSwitchCase="0">Knowledge</a>
+                    <a *ngSwitchCase="1">Record</a>
+                    <a *ngSwitchCase="2">Manage</a>
+                    <a *ngSwitchCase="3">Template</a>
+                </a></td>
+            </tr>
+            <tr>
+                <td>Created on:</td><td>{{article.createtime}}</td>
+            </tr>
+            <tr>
+                <td>Last update:</td><td>{{article.lastedittime}}</td>
+            </tr>            
+            <tr>
+                <td>Reads</td><td>{{article.read}}</td>
+            </tr>
+        </table>
+
+            <mat-icon>attachment</mat-icon>({{article.appendix.length}})
+
+        <a *ngFor="let file of article.appendix" (click)="downloadAppendix(file)" 
+            style="cursor:pointer;background-color: rgb(240, 239, 239); margin: 1%;text-decoration:underline;">
+            {{file}}
+        </a>
+          
+
+        </mat-card-content>
+        <mat-divider inset></mat-divider>
+        <mat-card-actions>
+            <button (click)="showauthority = !showauthority" mat-button matTooltip="Hide Attributes">
+                <mat-icon>{{showauthority?'arrow_drop_up':'arrow_drop_down'}}</mat-icon>
+            </button> Article Authority
+            <table [cellSpacing]="10" [hidden]="!showauthority">
+                <tr>
+                    <td>Visible for:</td><td> 
+                        <a *ngIf="!article.onlyforowner" [ngSwitch]="article.authority">
+                        <a *ngSwitchCase="200">Super admin</a>
+                        <a *ngSwitchCase="150">Global admin</a>
+                        <a *ngSwitchCase="100">Admin</a>
+                        <a *ngSwitchCase="50">Sungrow senior</a>
+                        <a *ngSwitchCase="40">Sungrow standard</a>
+                        <a *ngSwitchCase="30">Sungrow basic</a>
+                        <a *ngSwitchCase="20">Service Partner</a>
+                        <a *ngSwitchCase="0">Customer</a>
+                    </a>
+                    <a *ngIf="article.onlyforowner"></a>
+                </td>            
+                </tr>
+                <tr *ngIf="!article.onlyforowner" >
+                    <td>Region:</td><td>{{article.region}}</td><td>Other region</td><td>{{article.forotherregion}}</td>
+                </tr>                    
+                <tr *ngIf="!article.onlyforowner" >
+                    <td>Department:</td><td>{{article.department}}</td><td>Other department</td><td>{{article.forotherdepartment}}</td>
+                </tr>
+                <tr *ngIf="!article.onlyforowner" >
+                    <td>Group:</td><td>{{article.group}}</td><td>Not in group</td><td>{{article.forothergroup}}</td>
+                </tr>            
+            </table>
+          <!-- <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button> -->
+        </mat-card-actions>
+        <mat-card-footer>
+
+        </mat-card-footer>
+      </mat-card>
+      
+    <br>
+    <div [style.width]="width" style="margin: auto !important;">
+        <div [innerHtml] = "article.contenthtml|safeHtml" [hidden]="sharing"></div>
+        <div [hidden]="!sharing">
+            <mat-card>
+                <!-- <mat-card-title>Share to:</mat-card-title> -->
+                <!-- <mat-card-subtitle>Start</mat-card-subtitle> -->
+                <mat-card-actions>
+                  <!-- <button mat-button [matTooltip]="'Share to: ' + myDepartment" *ngIf="me.Company == 'Sungrow'">My Department</button>
+                  <button mat-button [matTooltip]="'Share to: ' + myRegion" *ngIf="me.Company == 'Sungrow'">My Region</button><br> -->
+                  <button mat-raised-button matTooltip="Share to following emails" *ngIf="me.Authority >= 20" (click)="ShareTo()">Share to</button><br><br>
+                  <textarea name="" id="" cols="30" rows="3" placeholder="Please input message to the receiver!" [(ngModel)]="sharemessage" style="width: 98%;" ></textarea><br>
+                </mat-card-actions>
+        <mat-card-footer>
+        <textarea name="" id="" cols="30" rows="10" placeholder="Input Email" [(ngModel)]="InputEmails" style="width: 98%;" 
+        (keyup)="($event.which===13)?addtheseemail():0;"></textarea><br>
+
+        <mat-form-field class="example-chip-list" appearance="fill" style="width: 100%;">
+            <mat-label>Emails</mat-label>
+            <mat-chip-list #chipList aria-label="Fruit selection">
+              <mat-chip *ngFor="let email of shareEmails" (removed)="remove(email)">
+                {{email}}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input placeholder="New Email..."
+                     [matChipInputFor]="chipList"
+                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                     [matChipInputAddOnBlur]="addOnBlur"
+                     (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+          </mat-form-field>
+  </mat-card-footer>
+              </mat-card>
+        </div>
+    </div>
+
+</section>
+
+<!-- <div *ngFor="let item of ArticleFullList.articles">
+    <tr>
+        <td>value: {{item}}</td>
+    </tr>
+</div> -->
+
+<!-- <img style="width:20px" src="../../../../assets/image/visible.png" alt=""> -->
+    <!-- <button (click)="test()">button original</button>
+    <div [innerHtml]="TestStr"></div>
+    <div [innerHtml] = teststr2></div> -->
+    <!-- <a href="/article/4">aa<a href="/article/5">aaa</a>aaa</a>     -->
+
+<!-- <button (click)="SetLink()"></button>
+
+<div>{{article.contenthtml}}</div> -->
+
+

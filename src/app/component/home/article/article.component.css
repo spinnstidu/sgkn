@@ -1,0 +1,31 @@
+.row{
+    width: 100%;
+    display: inline;
+}
+
+.col{
+    display: inline-block;  
+    width: 20%;
+    height: 300;
+}
+
+.col-left{
+    float: left;
+}
+
+.col.right{
+    float: right;
+}
+
+.title{
+    text-align: center;
+}
+
+.appendixitem{
+    margin: 5%;
+    text-decoration:underline;
+}
+
+a.AL{
+    cursor:pointer;
+}
