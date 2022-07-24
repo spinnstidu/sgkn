@@ -1,0 +1,21 @@
+<!-- <div class="articleItemcontainer" *ngFor="let item of List">
+    <div class="articleItem" (click)="FindandOpenNewWindows(item.index)">
+        <a>Title:<strong>{{item.title}}</strong></a><a>Create data:{{item.createtime}}</a><a>Edited on:{{item.createtime}}</a><br>
+        <p>{{item.description}}</p>
+    </div>
+</div> -->
+<!-- 
+<input type="checkbox">normal checkbox
+<div [innerHtml]="testcheckbox">checkbox in innerHtml</div> -->
+
+<mat-card *ngFor="let item of List" >
+    <mat-card-title (click)="FindandOpenNewWindows(item.index)" style="cursor:pointer;" matTooltip="Article title and index">{{item.title}}({{item.index}})</mat-card-title>
+    <mat-icon *ngIf="AllowDelete" style="cursor:pointer;" color="warn" (click)="delete(item)" matTooltip="Remove it from list">cancel</mat-icon>
+    <mat-label style="margin: 1%;cursor:pointer;" (click)="FindandOpenNewWindows(item.index)">Create data:</mat-label>
+    <mat-label style="margin: 1%;cursor:pointer;" (click)="FindandOpenNewWindows(item.index)">{{item.createtime}}</mat-label>
+    <mat-label style="margin: 1%;cursor:pointer;" (click)="FindandOpenNewWindows(item.index)">Edited on:</mat-label>
+    <mat-label style="margin: 1%;cursor:pointer;" (click)="FindandOpenNewWindows(item.index)">{{item.lastedittime}}</mat-label>
+    <mat-card-actions (click)="FindandOpenNewWindows(item.index)" style="cursor:pointer;">
+        <mat-label style="margin: 1%;cursor:pointer;" (click)="FindandOpenNewWindows(item.index)">{{item.description}}</mat-label>
+    </mat-card-actions>
+  </mat-card>
