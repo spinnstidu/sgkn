@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="nofollow" 
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"rel="nofollow" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script> -->
+  </head>
+<body > 
+<div [hidden]="preview!=''">
+  <mat-tab-group [(selectedIndex)]="MainTabIndex" backgroundColor="primary" >
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">account_circle</mat-icon>
+        My Account
+      </ng-template>
+    <app-me [hidden]="loginstatus.logout"></app-me>
+    <div  [hidden]="loginstatus.logout" style="padding-left: 48%;">
+      <button mat-fab color = "red" type="submit" (click)="logout()" style="margin: 1%;" matTooltip="Logout">
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
+    </div>
+    <section class="main" [hidden]="loginstatus.login">  
+
+      
+      <mat-tab-group mat-align-tabs="center" >
+          
+        <mat-tab label="Login">
+              <mat-card>
+                  <mat-card-content>
+                      <form #loginForm="ngForm">
+                          <mat-error *ngIf="loginresult=='Wronguserandpassword'">
+                              The username and password were not correct.
+                          </mat-error>
+                          <mat-form-field appearance="fill">
+                              <mat-label>Enter your email</mat-label>
+                              <input matInput placeholder = "Email" [(ngModel)]="email" name="email" required>
+                              <mat-error>
+                                  Please provide a valid email address
+                              </mat-error>        
+                          </mat-form-field>
+                          
+                          <mat-form-field appearance="fill">
+                              <mat-label>Enter your password</mat-label>
+                              <input matInput [type]="hide ? 'password' : 'text'"  [(ngModel)]="password" name="password" required>
+                              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                              </button>
+                              <mat-error>
+                                  Please provide a valid password
+                              </mat-error>    
+                            </mat-form-field>
+                          <button mat-raised-button color = "primary" (click)="GetToken()">Login</button>
+                      </form>     
+                      <br><br>
+                  </mat-card-content>
+              </mat-card>
+          </mat-tab>
+          <mat-tab label="Forget Password">
+              <mat-card>
+                  <mat-card-content>
+                      <form #loginForm="ngForm">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Enter your email</mat-label>
+                          <input matInput placeholder = "Email" [(ngModel)]="email" name="email" required>
+                          <mat-error>
+                              Please provide a valid email address
+                          </mat-error>        
+                        </mat-form-field>
+
+                          <button mat-raised-button color = "primary" (click)="GetVerifycode()">Get Verify Code</button>
+                          <mat-form-field>
+                              <input matInput placeholder = "Verify Code" [(ngModel)]="verifycode" name="Verify Code" required>
+                              <mat-error>
+                                  Please provide the verify code, which has been sent to your email
+                              </mat-error>        
+                          </mat-form-field>
+                          <button mat-raised-button color = "primary" (click)="ResetPassword()">Reset Password</button>
+      
+                      </form>     
+                      <br><br>
+                  </mat-card-content>
+              </mat-card>
+              
+          </mat-tab>
+        </mat-tab-group>
+      
+      </section>
+      
+    </mat-tab>
+
+    <mat-tab [disabled]="loginstatus.logout">
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">home</mat-icon>
+        Home
+      </ng-template>
+      <app-home [hidden]="loginstatus.logout"></app-home>
+    </mat-tab>
+  
+    <mat-tab [disabled]="loginstatus.logout">
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">search</mat-icon>
+        Search
+      </ng-template>
+      <app-show-article [hidden]="loginstatus.logout"></app-show-article>
+    </mat-tab>
+
+    <mat-tab [disabled]="loginstatus.logout">
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">description</mat-icon>
+        Article
+      </ng-template>
+      <app-article [hidden]="loginstatus.logout"></app-article>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">edit</mat-icon>
+        Edit Article
+      </ng-template>
+      <app-new-article></app-new-article>
+    </mat-tab> 
+
+    
+  <mat-tab *ngIf="logbranch>=100">
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon">account_balance</mat-icon>
+      Account Admin
+    </ng-template>
+    <app-accountadmin></app-accountadmin>
+  </mat-tab> 
+
+</mat-tab-group>
+</div>
+
+  <router-outlet ></router-outlet>
+</body>
+
+</html>
+<br><br>
+  <H1 class="title" style="font-size:xx-large;text-align: center;" (click)="previewswitch()"><strong>{{title}}</strong> </H1>
+<div (click)="previewswitch()" [innerHtml]="preview|safeHtml"></div>
+

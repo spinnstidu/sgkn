@@ -1,0 +1,32 @@
+.btn-navbar{
+    margin: 1%;    
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor:pointer;
+    color: aliceblue;    
+}
+
+.btn-left{
+    float: left;
+}
+
+.btn-right{
+    float: right;
+}
+
+.spacer{
+    flex: 1 1 auto;
+}
+
+mat-card{
+    max-width: 400px;
+    margin: 2em auto;
+    text-align: center;
+
+}
+
+mat-form-field{
+    display: block;
+}
+
+
