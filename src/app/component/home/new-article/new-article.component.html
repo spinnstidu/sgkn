@@ -1,0 +1,309 @@
+<p style="margin: 1%;">
+	<mat-toolbar>
+		<button mat-raised-button type="submit" [matMenuTriggerFor]="menu" style="float: left; margin: 1%;"
+			matTooltip="Menu: New article; load locally, from template">
+			<mat-icon>edit</mat-icon>
+		</button>
+		<mat-menu #menu="matMenu">
+			<button mat-menu-item (click)="NewArticle()" matTooltip="New article">
+				<mat-icon>add</mat-icon>
+			</button>
+			<button mat-menu-item (click)="LoadLocally()" matTooltip="Load content from local file">
+				<mat-icon> local_library
+				</mat-icon>
+			</button>
+			<button mat-menu-item (click)="LoadTemplate()" matTooltip="Load template">
+				<mat-icon>assignment</mat-icon>
+			</button>
+		</mat-menu>
+		<!-- <button mat-raised-button type="submit" (click)="LoadLocally()" style="float: left; margin: 1%;" >
+		<mat-icon> local_library
+		</mat-icon>
+	</button> -->
+
+		<button mat-raised-button type="submit" (click)="fixedpagewidth()" style="float: right; margin: 1%;"
+			matTooltip="Fixed width, to match print page">
+			<mat-icon>swap_horiz</mat-icon>
+		</button>
+		<button mat-raised-button type="submit" (click)="fullscreen()" style="float: right; margin: 1%;"
+			matTooltip="Preview">
+			<mat-icon>fullscreen</mat-icon>
+		</button>
+
+		<span class="example-spacer"
+			style="flex: 1 1 auto; text-align: center;">{{article.index==0?'New':'Modify'}}</span>
+
+		<button mat-raised-button type="submit" (click)="SaveAsPDF()" style="float: right; margin: 1%;" matTooltip="Upload and open in Article">		
+		<mat-icon>description</mat-icon>
+		</button>
+		<button mat-raised-button type="submit"
+			(click)="accordionStatus?accordion.openAll():accordion.closeAll();accordionStatus=!accordionStatus;"
+			style="float: left; margin: 1%;" matTooltip="Show/hide article attributes">
+			<mat-icon>{{accordionStatus?'arrow_drop_down':'arrow_drop_up'}}</mat-icon>
+		</button>
+
+		<button mat-raised-button type="submit" (click)="SaveLocally()" style="float: right; margin: 1%;"
+			matTooltip="Save content to local file">
+			<mat-icon>save</mat-icon>
+		</button>
+
+		<button mat-raised-button [disabled]="ioresult.successful" type="submit" (click)="Save(false)"
+			style="float: right; margin: 1%;" matTooltip="Upload to server">
+			<mat-icon>cloud_upload</mat-icon>
+		</button>
+
+	</mat-toolbar>
+
+</p>
+<div [style.width]="width" style="margin: auto !important;">
+	<mat-form-field id="title" appearance="fill" style="width: 100%;  margin: auto !important;">
+		<mat-label>Enter your Title</mat-label>
+		<input matInput placeholder="Title" [(ngModel)]="article.title" name="title" required (ngModelChange)="ioresult.successful = false"
+			style="font-size:xx-large; text-align: center;">
+		<mat-error>
+			Please provide a valid Title
+		</mat-error>
+	</mat-form-field>
+</div>
+<mat-accordion [hidden]="accordionStatus" class="example-headers-align" multi>
+	<mat-expansion-panel>
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				Main Attributes
+			</mat-panel-title>
+			<mat-panel-description>
+				Article Description, ID, Type, Owner, Other Authors
+				<mat-icon>assignment</mat-icon>
+			</mat-panel-description>
+		</mat-expansion-panel-header>
+
+		<mat-form-field appearance="fill" style="width: 100%;">
+			<mat-label>Descrtiption</mat-label>
+			<textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+				cdkAutosizeMaxRows="5" [(ngModel)]="article.description" (ngModelChange)="ioresult.successful = false"></textarea>
+		</mat-form-field>
+
+		<mat-form-field appearance="fill">
+			<mat-label>{{article.newarticle ? 'New Article' : 'Editing Article Index:'}}</mat-label>
+			<input matInput type="text" readonly="true" [(ngModel)]="article.index">
+		</mat-form-field>
+
+		<!-- <mat-form-field appearance="fill">
+			<mat-label>Article Type</mat-label>
+			<mat-select [(ngModel)]="article.articletype">
+				<mat-option value="Knowledge">Knowledge</mat-option>
+				<mat-option value="Report">Report</mat-option>
+				<mat-option value="Manage">Manage</mat-option>
+				<mat-option value="Project">Project</mat-option>
+				<mat-option value="Folder">Folder</mat-option>
+			</mat-select>
+		</mat-form-field> -->
+		<app-articletypeselection [(article)]="article"></app-articletypeselection>
+
+		<mat-form-field appearance="fill">
+			<mat-label>Article Owner</mat-label>
+			<input matInput type="text" readonly="true" [(ngModel)]="OwnerAccount.name" (ngModelChange)="ioresult.successful = false">
+		</mat-form-field>
+
+		<mat-form-field appearance="fill">
+			<mat-label>Other Authors (Input emails)</mat-label>
+			<textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+				cdkAutosizeMaxRows="5" [(ngModel)]="article.otherauthors" (ngModelChange)="ioresult.successful = false"></textarea>
+		</mat-form-field>
+	</mat-expansion-panel>
+	<mat-expansion-panel>
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				Authority
+			</mat-panel-title>
+			<mat-panel-description>
+				Who can access to this article?
+				<mat-icon>account_circle</mat-icon>
+			</mat-panel-description>
+		</mat-expansion-panel-header>
+
+		<!-- <mat-form-field appearance="fill"> -->
+		<!-- <mat-label>Only For Owner</mat-label> -->
+		<mat-checkbox class="example-margin" [(ngModel)]="article.onlyforowner" (ngModelChange)="ioresult.successful = false">
+			Only visible for owner
+		</mat-checkbox>
+		<!-- <mat-select [(ngModel)]="article.onlyforowner">
+					<mat-option value="true">Only visible for owner</mat-option>
+					<mat-option value="false">Visible for others</mat-option>
+				  </mat-select> -->
+		<!-- </mat-form-field> -->
+
+		<mat-expansion-panel [disabled]="article.onlyforowner">
+			<mat-expansion-panel-header>
+				<mat-panel-title>
+					Access authority for all other user
+				</mat-panel-title>
+				<mat-panel-description>
+					General Authority, Region, Department, Group
+					<mat-icon>how_to_reg</mat-icon>
+				</mat-panel-description>
+			</mat-expansion-panel-header>
+
+			<mat-form-field appearance="fill">
+				<mat-label>General Access Authority, at least as:</mat-label>
+				<mat-select [(ngModel)]="article.authority" (ngModelChange)="ioresult.successful = false">
+					<mat-option [disabled]="OperatorAuthority<200" value="200">super_admin</mat-option>
+					<mat-option [disabled]="OperatorAuthority<150" value="150">globe_admin</mat-option>
+					<mat-option [disabled]="OperatorAuthority<100" value="100">admin</mat-option>
+					<mat-option [disabled]="OperatorAuthority<50" value="50">sungorw_high</mat-option>
+					<mat-option [disabled]="OperatorAuthority<40" value="40">sungrow</mat-option>
+					<mat-option [disabled]="OperatorAuthority<30" value="30">sungrow_low</mat-option>
+					<mat-option [disabled]="OperatorAuthority<20" value="20">service partner</mat-option>
+					<mat-option value="0">customer</mat-option>
+				</mat-select>
+			</mat-form-field>
+			<br>
+			<mat-form-field appearance="fill">
+				<mat-label>Region</mat-label>
+				<input matInput placeholder="Title" [(ngModel)]="article.region" name="region" (ngModelChange)="ioresult.successful = false">
+			</mat-form-field>
+			<mat-form-field appearance="fill">
+				<mat-label>Authority For Other Region</mat-label>
+				<mat-select [(ngModel)]="article.forotherregion">
+					<mat-option value="NoAccess">No access</mat-option>
+					<mat-option value="Readonly">Readonly</mat-option>
+					<mat-option value="Edit">Edit</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field appearance="fill">
+				<mat-label>Department</mat-label>
+				<input matInput placeholder="Department" [(ngModel)]="article.department" name="department" (ngModelChange)="ioresult.successful = false">
+			</mat-form-field>
+			<mat-form-field appearance="fill">
+				<mat-label>Authority For Other Department</mat-label>
+				<mat-select [(ngModel)]="article.forotherdepartment">
+					<mat-option value="NoAccess">No access</mat-option>
+					<mat-option value="Readonly">Readonly</mat-option>
+					<mat-option value="Edit">Edit</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field appearance="fill">
+				<mat-label>Group. (Input email)</mat-label>
+				<textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+					cdkAutosizeMaxRows="5" [(ngModel)]="article.group" (ngModelChange)="ioresult.successful = false"></textarea>
+			</mat-form-field>
+			<mat-form-field appearance="fill">
+				<mat-label>Authority For Other Group</mat-label>
+				<mat-select [(ngModel)]="article.forothergroup" (ngModelChange)="ioresult.successful = false">
+					<mat-option value="NoAccess">No access</mat-option>
+					<mat-option value="Readonly">Readonly</mat-option>
+					<mat-option value="Edit">Edit</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+		</mat-expansion-panel>
+
+	</mat-expansion-panel>
+
+	<mat-expansion-panel>
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				Other Attributes
+			</mat-panel-title>
+			<mat-panel-description>
+				Created & Updated date, Reads
+				<mat-icon>date_range</mat-icon>
+			</mat-panel-description>
+		</mat-expansion-panel-header>
+
+		<mat-form-field appearance="fill">
+			<mat-label>Create Date: {{article.createtime|date:'dd-MM-yyyy'}}</mat-label>
+			<input matInput disabled="true" placeholder="Createtime" [(ngModel)]="article.createtime" name="createtime">
+		</mat-form-field>
+
+		<mat-form-field appearance="fill">
+			<mat-label>Update Date: {{this.article.lastedittime|date:'dd-MM-yyyy'}}</mat-label>
+			<input matInput disabled="true" placeholder="Updatetime" [(ngModel)]="article.lastedittime"
+				name="lastedittime">
+		</mat-form-field>
+
+		<mat-form-field appearance="fill">
+			<mat-label>Reads: {{this.article.read}}</mat-label>
+			<input matInput disabled="true" placeholder="Updatetime" [(ngModel)]="article.lastedittime"
+				name="lastedittime">
+		</mat-form-field>
+
+	</mat-expansion-panel>
+</mat-accordion>
+<div [style.width]="width" style="margin: auto !important;">
+	<mat-tab-group mat-align-tabs="center" (selectedTabChange)="selectTabchanged($event)">
+		<mat-tab label="Article">
+			<div class="Editor">
+				<div #wang class="Editor"></div>
+			</div>
+		</mat-tab>
+
+		<mat-tab label="Html">
+			<p [innerText]="article.title" required style="font-size:xx-large; text-align: center; margin: 1%;"></p>
+			<textarea style="width: 98%; height: 700px; border: none;" [(ngModel)]="article.contenthtml" (ngModelChange)="ioresult.successful = false">
+			</textarea>
+			<!-- <textarea style="width: 98%; height: 700px; border: none;">{{article.contenttext}}</textarea>      -->
+		</mat-tab>
+
+		<!-- <mat-tab label="Preview">
+			<p [innerText]="article.title" required style="font-size:xx-large; text-align: center; margin: 1%;"></p>
+			<div id="previewDIV" [innerHtml]="article.contenthtml|safeHtml"></div>
+		</mat-tab> -->
+
+		<mat-tab label="Appendix ({{Filelist.length}})">
+
+			<mat-card>
+				<label style="margin:1%">Article Appendix </label> <br>
+				<a *ngFor="let file of article.appendix" style="display:inline-table; margin:1%" (ngModelChange)="ioresult.successful = false">
+					<mat-card style="width:300px; margin: 1%;">
+						<label readonly="true" placeholder="file" name="file">{{file}}</label>
+					</mat-card>
+				</a>
+			</mat-card>
+
+			<mat-card>
+				<label style="margin:1%">Selected Files </label>
+
+				<button mat-raised-button color="basic" aria-label="Example icon button with a delete icon"
+					matTooltip="Add appendix" (click)="AddAppendix()">
+					<mat-icon>add</mat-icon>
+				</button>
+				<br>
+				<input id="appendixselect" type="file" hidden="true" (change)="onFileSelected($event)" #fileUpload>
+
+				<a *ngFor="let file of Filelist" (ngModelChange)="ioresult.successful = false"
+					style="display:inline-table; margin:1%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; ">
+					<mat-card style="width:300px; margin: 1%; white-space:nowrap;" matTooltip={{file.name}}>
+						<mat-icon color="warn" (click)="deleteappendixfile(file)" style="float: left;">close</mat-icon>
+						<label readonly="true" placeholder="file" name="file">{{file.name}}</label>
+					</mat-card>
+				</a>
+			</mat-card>
+
+		</mat-tab>
+	</mat-tab-group>
+</div>
+
+<div>
+	<div>{{article.comment}}</div>
+</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+</html>
+<!-- only to load local html file -->
+<input id="loadfile" type="file" class="file-upload" hidden="true" (change)="onLoadFileSelected($event)" #fileUpload>
+<!-- help to load img file into html -->
+<input id="loadimg" class="file-upload" hidden="true" type="file"  multiple (change)="onImgSelected($event)" #fileUpload>
+
+<app-autocompletetitle></app-autocompletetitle>

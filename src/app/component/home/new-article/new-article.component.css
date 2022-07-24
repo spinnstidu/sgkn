@@ -1,0 +1,46 @@
+.example-action-buttons {
+    padding-bottom: 20px;
+  }
+  
+  .example-headers-align .mat-expansion-panel-header-title,
+  .example-headers-align .mat-expansion-panel-header-description {
+    flex-basis: 0;
+  }
+  /* .preview{
+    background-color: initial;
+    cursor: default;
+    appearance: checkbox;
+    box-sizing: border-box;
+    padding: initial;
+    border: initial;
+} */
+  .example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .example-headers-align .mat-form-field + .mat-form-field {
+    margin-left: 8px;
+  }
+
+  
+.ButtonContainer{
+    width: 80%;
+    /* left: 50%; */
+    /* transform: translate(-50%,0%); */
+    /* background-color: gray; */
+}
+.tabpagebutton{
+    margin: 2%;
+}
+
+.descriptionBox{
+    width: 100%;
+}
+
+.Editor{
+    height: 100%;
+    min-height: 300px;
+
+}
+

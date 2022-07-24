@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Changed of Article is not saved!</h2>
+<h2 mat-dialog-title>Are you sure to discard the change?</h2>
+<mat-dialog-content></mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close >Cancel</button>
+    <button mat-button [mat-dialog-close]="true" style="color: red;"  cdkFocusInitial>Discard</button>
+  </mat-dialog-actions>
+  
