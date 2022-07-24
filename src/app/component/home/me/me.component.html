@@ -1,0 +1,123 @@
+<mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Account">
+        <mat-card>
+            <mat-card-content>
+                <div class="row">
+                    <div class="cln">
+                        <p class="label">Name:</p>
+                        <p class="label">Company:</p>
+                        <p class="label">Department:</p>
+                        <p class="label">Email:</p>
+                        <p class="label">Role:</p>
+                        <p class="label">Create Time:</p>
+                        <p class="label">End Time:</p>
+                    </div>
+                    <div class="cln">                        
+                        <p class="value">{{Name}}</p>
+                        <p class="value">{{Company}}</p>
+                        <p class="value">{{Department}}</p>
+                        <p class="value">{{Email}}</p>
+                        <p class="value">{{Role}}</p>
+                        <p class="value">{{Createtime|date:'dd-MM-yyyy'}}</p>
+                        <p class="value">{{Endtime|date:'dd-MM-yyyy'}}</p>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </mat-tab>
+    <mat-tab label="Password">
+        <mat-card>
+            <mat-card-content>
+                
+                <mat-form-field appearance="fill">
+                    <mat-label>Enter your current password</mat-label>
+                    <input matInput [type]="hide1 ? 'password' : 'text'"  [(ngModel)]="Password" name="password" required>
+                    <button mat-icon-button matSuffix (click)="hide1 = !hide1" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide1">
+                      <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error>
+                        Please provide a valid password
+                    </mat-error>    
+                  </mat-form-field>        
+        
+                  <mat-form-field appearance="fill" matTooltip="8-50 charaters">
+                    <mat-label>Enter your new password</mat-label>
+                    <input matInput [type]="hide2 ? 'password' : 'text'"  [(ngModel)]="NewPassword1" name="NewPassword1" required minlength="8" maxlength="50">
+                    <button mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide2">
+                      <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error>
+                        Please provide a valid password
+                    </mat-error>    
+                  </mat-form-field>    
+
+                  <mat-form-field appearance="fill" matTooltip="8-50 charaters">
+                    <mat-label>Pepeat your new password</mat-label>
+                    <input matInput [type]="hide3 ? 'password' : 'text'"  [(ngModel)]="NewPassword2" name="NewPassword2" required>
+                    <button mat-icon-button matSuffix (click)="hide3 = !hide3" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide3">
+                      <mat-icon>{{hide3 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error>
+                        Please provide a valid password
+                    </mat-error>    
+                  </mat-form-field>    
+                  <br>
+                  <button mat-raised-button color = "primary" (click)="ChangePassword()">Update Password</button>
+                  <br><br>
+                  <mat-error [hidden]="message==''">
+                    {{message}}
+                    </mat-error>
+
+            </mat-card-content>
+        </mat-card>
+       
+    </mat-tab>    
+    <mat-tab label="Modify" *ngIf="modify">
+      <mat-card>
+          <mat-card-content>
+            <mat-label>Please enter the information very carefully!</mat-label><br>
+            <mat-label>You cannot modify it again from next login!</mat-label><br><br>
+              <mat-form-field *ngIf="nameinput" appearance="fill">
+                  <mat-label>Enter your name</mat-label>
+                  <input matInput type="text"  [(ngModel)]="Name" name="Name" required>
+                  <mat-error>
+                      Please provide a valid Name
+                  </mat-error>    
+                </mat-form-field>        
+      
+                <mat-form-field *ngIf="nameinput" appearance="fill">
+                  <mat-label>Enter your Company</mat-label>
+                  <input matInput type="text"  [(ngModel)]="Company" name="Company" required>
+                  <mat-error>
+                      Please provide a valid company name
+                  </mat-error>    
+                </mat-form-field>    
+
+                <mat-form-field *ngIf="nameinput" appearance="fill">
+                  <mat-label>Enter your Region</mat-label>
+                  <input matInput type="text"  [(ngModel)]="Region" name="Region" required>
+                  <mat-error>
+                      Please provide a valid region
+                  </mat-error>    
+                </mat-form-field>    
+
+                <mat-form-field *ngIf="nameinput" appearance="fill">
+                  <mat-label>Enter your Department</mat-label>
+                  <input matInput type="text"  [(ngModel)]="Department" name="Department" required>
+                  <mat-error>
+                      Please provide a valid Department
+                  </mat-error>    
+                </mat-form-field> 
+
+                <br>
+                <button mat-raised-button color = "primary" (click)="Modify()">Submit</button>
+                <br><br>
+                <mat-error [hidden]="message==''">
+                  {{message}}
+                  </mat-error>
+
+          </mat-card-content>
+      </mat-card>
+     
+  </mat-tab>  
+  </mat-tab-group>
