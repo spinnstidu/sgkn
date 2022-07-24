@@ -1,0 +1,27 @@
+<H1>
+    {{data.title}}
+</H1>
+
+<h3>
+    {{data.content}}
+</h3>
+
+<textarea name="" id="" cols="30" rows="10" placeholder="Input Email" [(ngModel)]="InputEmails" style="width: 90%;" 
+(keyup)="($event.which===13)?addtheseemail():0;"></textarea><br>
+
+<mat-form-field class="example-chip-list" appearance="fill" style="width: 100%;">
+    <mat-label>Emails</mat-label>
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip *ngFor="let email of data.emails" (removed)="remove(email)">
+        {{email}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input placeholder="New Email..."
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+  </mat-form-field>
