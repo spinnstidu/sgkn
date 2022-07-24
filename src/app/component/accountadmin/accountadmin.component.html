@@ -1,0 +1,63 @@
+<mat-tab-group mat-align-tabs="start">
+    <mat-tab label="Add Acount">
+        <button mat-raised-button color="basic" (click)="addaccount()">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>
+        </button>
+        <br>
+        <mat-form-field appearance="fill">
+            <mat-label>Company</mat-label>
+            <input matInput [(ngModel)]="addaccount_company">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Region</mat-label>
+            <input matInput [(ngModel)]="addaccount_region">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Department</mat-label>
+            <input matInput [(ngModel)]="addaccount_department ">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Role</mat-label>
+            <mat-select [(ngModel)]="addaccount_role">
+                <mat-option *ngIf="optau>=100" value="customer">Customer</mat-option>
+                <mat-option *ngIf="optau>=100" value="service_partner">Service Partner</mat-option>
+                <mat-option *ngIf="optau>=100" value="sungrow_low">Sungrow Basic</mat-option>
+                <mat-option *ngIf="optau>=100" value="sungrow">Sungrow </mat-option>
+                <mat-option *ngIf="optau>=100" value="sungrow_high">Sungrow Senior</mat-option>
+                <mat-option *ngIf="optau>100" value="admin">Admin</mat-option>
+                <mat-option *ngIf="optau>150" value="globe_admin">Global Admin</mat-option>
+                <mat-option *ngIf="optau>=200" value="super_admin">Super Admin</mat-option>
+              </mat-select>
+          </mat-form-field> 
+          <mat-form-field class="example-full-width" appearance="fill" (click)="addaccount_enddateactived=!addaccount_enddateactived">            
+            <mat-label><mat-icon aria-hidden="false" aria-label="Example home icon">{{addaccount_enddateactived?'done':'cancel'}}</mat-icon> Expired Date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="addaccount_enddate" >
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker></mat-datepicker>
+          </mat-form-field>
+          <br>
+
+        <textarea name="" id="" cols="30" rows="10" placeholder="Input Email" [(ngModel)]="InputEmails" style="width: 90%;" 
+        (keyup)="($event.which===13)?addtheseemail():0;"></textarea><br>
+
+        <mat-form-field class="example-chip-list" appearance="fill" style="width: 100%;">
+            <mat-label>Emails</mat-label>
+            <mat-chip-list #chipList aria-label="Fruit selection">
+              <mat-chip *ngFor="let account of addaccount_emails" (removed)="remove(account)">
+                {{account.email}}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input placeholder="New Email..."
+                     [matChipInputFor]="chipList"
+                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                     [matChipInputAddOnBlur]="addOnBlur"
+                     (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+          </mat-form-field>
+    </mat-tab>
+    <mat-tab label="Second">Content 2</mat-tab>
+    <mat-tab label="Third">Content 3</mat-tab>
+  </mat-tab-group>
