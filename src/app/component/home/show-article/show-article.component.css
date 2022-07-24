@@ -1,0 +1,26 @@
+.ButtonContainer{
+    width: 80%;
+    /* left: 50%; */
+    /* transform: translate(-50%,0%); */
+    /* background-color: gray; */
+}
+.tabpagebutton{
+    margin: 1%;
+}
+
+.input-search-content{
+    width: 50%;
+    padding-left: 1%;
+    margin: 1%;
+}
+
+.searchTable{
+    margin: 7%;
+}
+
+.articleItem{
+    width: 100%;
+    margin: 1%;
+    border-bottom: 1px burlywood solid;
+    cursor:pointer;
+}

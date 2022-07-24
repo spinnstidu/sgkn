@@ -1,0 +1,71 @@
+
+<p style="margin: 1%;">
+    <mat-toolbar>
+      <button mat-flat-button type="submit"  style="float: left; margin: 1%;" matTooltip="More Filter" (click)="MoreFilter()">
+		<mat-icon>tune</mat-icon>
+	    </button>
+        <input type="text" placeholder="Words less than 4 characters: fullmatching search; words at least 4 characters: fuzzy search" style="margin: 1%; height:60%; width:50%; border-style: hidden;" 
+        [(ngModel)]="search" (keyup)="($event.which===13)?FindArticleWithFilter():0"
+      matTooltip="Search article content. Sample: inputing 123 1234 abcdf, result must include 123 as full matching search, and at least 1234 or abcdf as fuzzy search.">
+      <span class="example-spacer" style="flex: 1 1 auto;"></span>
+      <label>Index</label>
+      <input type="number" placeholder="Article Index" style="margin: 1%; height:60%; border-style: hidden;" 
+      [(ngModel)]="article.index" (keyup)="($event.which===13)?FindandOpenNewWindows(article.index):0"
+      matTooltip="Directly get article by index, enter to search and show in new tab">
+    </mat-toolbar>
+      
+</p>
+
+<mat-card *ngIf="morefilter">
+    <!-- <mat-card-title>Search Filter</mat-card-title> -->
+    <!-- <mat-card-subtitle>Search Filter</mat-card-subtitle> -->
+    <mat-card-actions>
+            <!-- <mat-checkbox [(ngModel)]="articletypeactived" color="primary" style="margin: 1%;">
+            <mat-select [(ngModel)]="article.articletype">
+                <mat-option value="Knowledge">Knowledge</mat-option>
+                <mat-option value="Report">Report</mat-option>
+                <mat-option value="Manage">Manage</mat-option>
+                <mat-option value="Project">Project</mat-option>
+                <mat-option value="Folder">Folder</mat-option>                
+              </mat-select>
+            </mat-checkbox> -->
+            <app-articletypeselection [(article)]="article"></app-articletypeselection>
+            <mat-checkbox [(ngModel)]="haveattachment" color="primary" style="margin: 1%;">
+                Have attachment                
+            </mat-checkbox>
+            <br>
+            <mat-checkbox [(ngModel)]="searchfromactived" color="primary" style="margin: 1%;">
+                From:                
+            </mat-checkbox>
+            <input type="date" class="tabpagebutton" [(ngModel)]="searchfrom" style="border:none ;">
+
+            <mat-checkbox [(ngModel)]="searchuntilactived" color="primary" style="margin: 1%;">
+                To:                
+            </mat-checkbox>
+            <input type="date" class="tabpagebutton" [(ngModel)]="searchuntil" style="border:none ;">
+<br>
+            <mat-checkbox [(ngModel)]="onlyforme" color="primary" style="margin: 1%;">
+                Only for me                
+            </mat-checkbox>
+            <mat-checkbox [(ngModel)]="sameregion" color="primary" style="margin: 1%;" *ngIf="!onlyforme">
+                From same region                
+            </mat-checkbox>
+            <mat-checkbox [(ngModel)]="samedepartment" color="primary" style="margin: 1%;" *ngIf="!onlyforme">
+                From same department                
+            </mat-checkbox>
+    </mat-card-actions>
+  </mat-card>
+  <br>
+
+
+<section style="width: 95%;">
+    <app-singlearticleinfo [List]="articleList"></app-singlearticleinfo>
+    <!-- <div class="articleItemcontainer" *ngFor="let item of articleList">
+        <div class="articleItem" (click)="FindandOpenNewWindows(item.index)">
+            <a>Title:<strong>{{item.title}}</strong></a><a>Create data:{{item.createtime}}</a><a>Edited on:{{item.createtime}}</a><br>
+            <p>{{item.description}}</p>
+        </div>
+    </div> -->
+</section>
+
+<!-- <div [innerHtml] = "article.contenthtml"></div> -->
