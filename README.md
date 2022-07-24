@@ -1,55 +1,27 @@
-# Angular basic
+# Front
 
-[Azure Static Web Apps](https://docs.microsoft.com/azure/static-web-apps/overview) allows you to easily build [Angular](https://angular.io/) apps in minutes. Use this repo with the [Angular quickstart](https://docs.microsoft.com/azure/static-web-apps/getting-started?tabs=angular) to build and customize a new static site.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.5.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli).
+## Development server
 
-## Project setup
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-```bash
-npm install
-```
+## Code scaffolding
 
-### Start the dev server
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-```bash
-npm run swa:start
-```
+## Build
 
-> Note: This command will use the local configuration file `swa-cli.config.json`.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-### Run unit tests
+## Running unit tests
 
-```bash
-npm test
-```
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-### Run e2e tests
+## Running end-to-end tests
 
-```bash
-npm run e2e
-```
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-### Lints and fixes files
+## Further help
 
-```bash
-npm run lint
-```
-
-### Compiles and minifies for production
-
-```bash
-npm run build
-```
-
-### Login to Azure
-
-```bash
-npm run swa:login
-```
-
-### Deploy to Azure
-
-```bash
-npm run swa:deploy
-```
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
