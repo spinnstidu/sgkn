@@ -1,0 +1,92 @@
+<mat-tab-group [(selectedIndex)]="MainTabIndex">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon" matTooltip="My favorite">favorite</mat-icon>
+      <a matTooltip="My favorite">My Folder</a>
+    </ng-template>
+
+    <mat-tab-group mat-align-tabs="center" (selectedTabChange)="homesubtabpagechange($event)">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon" matTooltip="My favorite">folder_open</mat-icon>
+          <a matTooltip="My favorite">Folder</a>
+        </ng-template>
+        <div [innerHtml]="this.accountconfig.favorite"></div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon" matTooltip="My favorite">edit</mat-icon>
+          <a matTooltip="My favorite">Edit</a>
+        </ng-template>
+        <div #wang class="Editor"></div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon" matTooltip="Html Code">edit</mat-icon>
+          <a matTooltip="HTML Code">HTML Code</a>
+        </ng-template>
+        <textarea style="width: 98%; height: 700px; border: none;">{{this.accountconfig.favorite}}</textarea>
+      </mat-tab>
+    </mat-tab-group>
+
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon" matTooltip="Read history">history</mat-icon>
+      <a matTooltip="Read history">History</a>
+    </ng-template>
+    <section style="width: 95%;">
+      <app-singlearticleinfo [myFunc]="'history'"></app-singlearticleinfo>
+
+    </section>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon" matTooltip="Got shared by others">thumb_up</mat-icon>
+      <a matTooltip="Got shared by others">Shared to me</a>
+    </ng-template>
+    <section style="width: 95%;">
+      <app-singlearticleinfo [myFunc]="'sharedtome'"></app-singlearticleinfo>
+
+    </section>
+
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon" matTooltip="New released Article">new_releases</mat-icon>
+      <a matTooltip="New released Article">New release</a>
+    </ng-template>
+    <app-singlearticleinfo [myFunc]="'new_releases'" [AllowDelete]="false"></app-singlearticleinfo>
+
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon" matTooltip="Article only for me">account_box</mat-icon>
+      <a matTooltip="Article only for me">Mine</a>
+    </ng-template>
+    <app-singlearticleinfo [myFunc]="'mineown'" [AllowDelete]="false"></app-singlearticleinfo>
+
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon" matTooltip="I am author">contact_mail</mat-icon>
+      <a matTooltip="I am author">Posted</a>
+    </ng-template>
+    <app-singlearticleinfo [myFunc]="'iposted'" [AllowDelete]="false"></app-singlearticleinfo>
+
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon" matTooltip="Template">assignment</mat-icon>
+      <a matTooltip="Template">Template</a>
+    </ng-template>
+    <app-singlearticleinfo [myFunc]="'template'" [IamTemplate]="true"></app-singlearticleinfo>
+
+  </mat-tab>
+</mat-tab-group>
